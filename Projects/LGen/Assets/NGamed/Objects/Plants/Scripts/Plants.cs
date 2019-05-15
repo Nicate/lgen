@@ -1,17 +1,41 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class Plants : MonoBehaviour {
-	private void Start() {
-		LSystem system = new LSystem();
+public abstract class Plants : MonoBehaviour {
+	public int width = 1;
+	public int depth = 1;
 
-		system.addVariable("A");
-		system.addVariable("B");
+	public float space = 1.0f;
 
-		system.setAxiom("A");
+	public int generations = 1;
 
-		system.setProduction("A", "AB");
-		system.setProduction("B", "A");
 
-		Debug.Log(system.generateSequence(4));
+	protected List<Plant> plants;
+
+
+	protected virtual void Start() {
+		plants = new List<Plant>(width * depth);
+
+		float startX = -0.5f * space * (width - 1);
+		float startY = 0.0f;
+		float startZ = -0.5f * space * (depth - 1);
+		
+		for(int v = 0; v < width; v += 1) {
+			for(int u = 0; u < depth; u += 1) {
+				float x = startX + u * space;
+				float y = startY;
+				float z = startZ + v * space;
+
+				Vector3 position = new Vector3(x, y, z);
+				Quaternion rotation = Quaternion.identity;
+
+				Plant plant = growPlant(position, rotation, transform);
+				
+				plants.Add(plant);
+			}
+		}
 	}
+
+
+	protected abstract Plant growPlant(Vector3 position, Quaternion rotation, Transform parent);
 }
