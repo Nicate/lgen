@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Leaf : Part {
+public class Leaf : Limb {
 	public float length;
 
 

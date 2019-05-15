@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Bud : Part {
+public class Bud : Limb {
 	public float radius;
 
 

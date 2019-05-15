@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Part : MonoBehaviour {
+public class Limb : MonoBehaviour {
 	protected int depth = 0;
 	protected int branch = 0;
 

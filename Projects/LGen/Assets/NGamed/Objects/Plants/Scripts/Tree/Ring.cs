@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Twist : Part {
+public class Ring : Limb {
 	public float twist = 0.0f;
 
 

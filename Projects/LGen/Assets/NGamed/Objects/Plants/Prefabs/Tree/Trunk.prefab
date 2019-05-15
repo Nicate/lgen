@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 4948829829456017008}
   - component: {fileID: -6707027389880616529}
   m_Layer: 0
-  m_Name: Stem
+  m_Name: Trunk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135,8 +135,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5abca6d819e04f545bbe949e89010d6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basePart: {fileID: 868203448263345705}
-  capPart: {fileID: 3427455563372863941}
+  baseReference: {fileID: 2189332531189191621}
+  capReference: {fileID: 3427253131600983828}
   length: 0.2
   radius: 0.15
   attenuation: 1.025

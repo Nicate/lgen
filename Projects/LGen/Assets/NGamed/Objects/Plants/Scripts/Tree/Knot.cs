@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Knot : Part {
+public class Knot : Limb {
 	public float bend = 0.0f;
 
 

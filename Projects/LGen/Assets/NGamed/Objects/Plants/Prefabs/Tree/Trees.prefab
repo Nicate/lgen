@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7330561679344309254}
   - component: {fileID: 3884506943390545518}
   m_Layer: 0
-  m_Name: TreePlants
+  m_Name: Trees
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +45,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 1
   depth: 1
-  space: 1
-  generations: 1
-  treePlantPrefab: {fileID: 5360938762424876827, guid: 032dcd349372f5d46b0c119e0e785fd4,
+  spacing: 1
+  generations: 4
+  debugSystem: 0
+  debugAxiom: 
+  debugProductions: []
+  treePrefab: {fileID: 5360938762424876827, guid: 032dcd349372f5d46b0c119e0e785fd4,
     type: 3}
