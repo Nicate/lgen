@@ -13,9 +13,12 @@ public abstract class Plants : MonoBehaviour {
 	protected List<Plant> plants;
 
 
-	protected virtual void Start() {
+	private void Awake() {
 		plants = new List<Plant>(width * depth);
+	}
 
+
+	protected virtual void Start() {
 		float startX = -0.5f * space * (width - 1);
 		float startY = 0.0f;
 		float startZ = -0.5f * space * (depth - 1);
@@ -31,6 +34,8 @@ public abstract class Plants : MonoBehaviour {
 
 				Plant plant = growPlant(position, rotation, transform);
 				
+				plant.name = "Plant (" + u + ", " + v + ") " + "[" + generations + "]";
+
 				plants.Add(plant);
 			}
 		}

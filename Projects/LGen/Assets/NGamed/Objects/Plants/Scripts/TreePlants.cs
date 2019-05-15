@@ -23,13 +23,17 @@ public class TreePlants : Plants {
 	private LSystem createSystem() {
 		LSystem system = new LSystem();
 
-		system.addVariable("A");
+		system.addVariable("S");
+		system.addVariable("T");
+		system.addVariable("K");
 		system.addVariable("B");
+		system.addVariable("L");
+		system.addVariable("[");
+		system.addVariable("]");
 
-		system.setAxiom("A");
+		system.setAxiom("S");
 
-		system.setProduction("A", "AB");
-		system.setProduction("B", "A");
+		system.setProduction("S", "ST[KS]SL");
 
 		return system;
 	}

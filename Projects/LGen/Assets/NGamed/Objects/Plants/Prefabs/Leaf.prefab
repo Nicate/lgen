@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8750030761400839333}
   - component: {fileID: 2654149523618563246}
   - component: {fileID: 8880969389012512221}
-  - component: {fileID: -7705284045042688065}
+  - component: {fileID: -6378600484858630241}
   m_Layer: 0
   m_Name: Leaf
   m_TagString: Untagged
@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: -8215845782911238127, guid: 32c16d3728a95b84fbbc12358906f90e, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -78,7 +78,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &-7705284045042688065
+--- !u!114 &-6378600484858630241
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,6 +87,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1743733348511392056}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d67d2371001f1040a27d296e279c49d, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c9670dfd0a579540abc667bc7dab714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  length: 0.1
