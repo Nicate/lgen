@@ -137,9 +137,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   basePart: {fileID: 868203448263345705}
   capPart: {fileID: 3427455563372863941}
-  length: 1
-  radius: 0.5
-  attenuation: 1.1
+  length: 0.2
+  radius: 0.15
+  attenuation: 1.025
+  depthiness: 0.5
+  branchiness: 20
+  minimumRadius: 0.025
 --- !u!1 &3427253131600983828
 GameObject:
   m_ObjectHideFlags: 0

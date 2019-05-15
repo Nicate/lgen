@@ -34,7 +34,7 @@ public abstract class Plants : MonoBehaviour {
 
 				Plant plant = growPlant(position, rotation, transform);
 				
-				plant.name = "Plant (" + u + ", " + v + ") " + "[" + generations + "]";
+				plant.name = "Plant (" + u + ", " + v + ")";
 
 				plants.Add(plant);
 			}

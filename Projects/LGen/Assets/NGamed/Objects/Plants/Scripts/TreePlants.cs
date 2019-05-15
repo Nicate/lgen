@@ -1,18 +1,27 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class TreePlants : Plants {
 	public TreePlant treePlantPrefab;
 
+	public string production1 = "S";
+	public string production2 = "B";
+
 
 	protected override Plant growPlant(Vector3 position, Quaternion rotation, Transform parent) {
 		Plant plant = createPlant(position, rotation, parent);
-		LSystem system = createSystem();
-
-		system.generateSequence(generations);
-
-		plant.interpret(system);
+		
+		updatePlant(plant);
 
 		return plant;
+	}
+	
+	private void updatePlant(Plant plant) {
+		LSystem system = createSystem();
+
+		Debug.Log(system.generateSequence(generations));
+
+		plant.interpret(system);
 	}
 
 
@@ -33,8 +42,18 @@ public class TreePlants : Plants {
 
 		system.setAxiom("S");
 
-		system.setProduction("S", "ST[KS]SL");
+		system.setProduction("S", production1);
+		system.setProduction("B", production2);
 
 		return system;
+	}
+
+
+	private void Update() {
+		if(Input.GetKeyDown(KeyCode.Space)) {
+			foreach(Plant plant in plants) {
+				updatePlant(plant);
+			}
+		}
 	}
 }

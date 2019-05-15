@@ -65,7 +65,7 @@ public class TreePlant : Plant {
 	private Part growPart(Part partPrefab) {
 		Part part = Instantiate(partPrefab, parent.Item1);
 
-		part.name = partPrefab.name + " {" + parent.Item2 + "}";
+		part.name = partPrefab.name + " [" + parent.Item2 + "]";
 
 		bool isParent = part.grow(parent.Item2, branch);
 
