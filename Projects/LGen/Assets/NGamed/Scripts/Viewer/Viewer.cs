@@ -5,12 +5,25 @@ public class Viewer : MonoBehaviour {
 	public GameObject focus;
 
 	[Header("Settings")]
+	public float moveSensitivity = 1.0f;
 	public float rotateSensitivity = 1.0f;
 	public float zoomSensitivity = 1.0f;
 
+	public float startStrafe = 0.0f;
+	public float startClimb = 0.0f;
+	public float startAdvance = 0.0f;
 	public float startPitch = 0.0f;
 	public float startTilt = 0.0f;
 	public float startZoom = 0.0f;
+
+	public float minimumStrafe = 0.0f;
+	public float maximumStrafe = 0.0f;
+
+	public float minimumClimb = 0.0f;
+	public float maximumClimb = 0.0f;
+
+	public float minimumAdvance = 0.0f;
+	public float maximumAdvance = 0.0f;
 
 	public float minimumPitch = 0.0f;
 	public float maximumPitch = 0.0f;
@@ -19,14 +32,19 @@ public class Viewer : MonoBehaviour {
 	public float maximumZoom = 0.0f;
 	
 	[Header("Input")]
+	public MouseButton strafeAndAdvanceMouseButton = MouseButton.Left;
+	public MouseButton climbMouseButton = MouseButton.Middle;
 	public MouseButton pitchAndTiltMouseButton = MouseButton.Right;
 	public string zoomAxis = "Mouse ScrollWheel";
+	public KeyCode resetKey = KeyCode.R;
+	public bool allowReset = true;
 
 
 	public enum MouseButton {
-		Left,
-		Right,
-		Middle
+		None = -1,
+		Left = 0,
+		Right = 1,
+		Middle = 2
 	}
 
 	
@@ -34,9 +52,15 @@ public class Viewer : MonoBehaviour {
 
 	private GameObject rig;
 	private GameObject boom;
-
+	
+	private bool moving;
+	private bool scaling; // So bad XD
 	private bool rotating;
 	private Vector3 mousePosition;
+
+	private float strafe;
+	private float climb;
+	private float advance;
 
 	private float pitch;
 	private float tilt;
@@ -60,12 +84,14 @@ public class Viewer : MonoBehaviour {
 	}
 	
 	private void Start() {
+		moving = false;
+		scaling = false;
 		rotating = false;
+		mousePosition = Input.mousePosition;
 
-		pitch = startPitch;
-		tilt = startTilt;
-
-		zoom = startZoom;
+		resetPosition();
+		resetRotation();
+		resetZoom();
 
 		updatePosition();
 		updateRotation();
@@ -74,39 +100,72 @@ public class Viewer : MonoBehaviour {
 
 	
 	private void Update() {
-		int mouseButton = (int) pitchAndTiltMouseButton;
+		float distance = Vector3.Distance(focus.transform.position, viewer.transform.position);
+		Vector3 delta = (Input.mousePosition - mousePosition) * distance;
 
-		bool rightMouseDown = Input.GetMouseButtonDown(mouseButton);
-		bool rightMouseUp = Input.GetMouseButtonUp(mouseButton);
+		if(moving) {
+			Quaternion rotation = Quaternion.Euler(0.0f, tilt, 0.0f);
+			Vector3 translation = rotation * (Vector3.left * delta.x + Vector3.back * delta.y) * moveSensitivity;
+
+			strafe += translation.x;
+			advance += translation.z;
+
+			strafe = Mathf.Clamp(strafe, minimumStrafe, maximumStrafe);
+			advance = Mathf.Clamp(advance, minimumAdvance, maximumAdvance);
+		}
+
+		if(scaling) {
+			climb -= delta.y * moveSensitivity;
+
+			climb = Mathf.Clamp(climb, minimumClimb, maximumClimb);
+		}
 
 		if(rotating) {
-			float distance = Vector3.Distance(focus.transform.position, viewer.transform.position);
-			
-			Vector3 delta = (Input.mousePosition - mousePosition) * distance * rotateSensitivity;
-
-			pitch -= delta.y;
-			tilt += delta.x;
+			pitch -= delta.y * rotateSensitivity;
+			tilt += delta.x * rotateSensitivity;
 
 			pitch = Mathf.Clamp(pitch, minimumPitch, maximumPitch);
 			tilt = tilt % 360.0f;
-
-			mousePosition = Input.mousePosition;
 		}
 
-		if(rightMouseDown) {
-			mousePosition = Input.mousePosition;
+		mousePosition = Input.mousePosition;
 
+		int leftMouseButton = (int) strafeAndAdvanceMouseButton;
+		int middleMouseButton = (int) climbMouseButton;
+		int rightMouseButton = (int) pitchAndTiltMouseButton;
+
+		if(leftMouseButton >= 0 && Input.GetMouseButtonDown(leftMouseButton)) {
+			moving = true;
+		}
+
+		if(leftMouseButton >= 0 && Input.GetMouseButtonUp(leftMouseButton)) {
+			moving = false;
+		}
+
+		if(middleMouseButton >= 0 && Input.GetMouseButtonDown(middleMouseButton)) {
+			scaling = true;
+		}
+
+		if(middleMouseButton >= 0 && Input.GetMouseButtonUp(middleMouseButton)) {
+			scaling = false;
+		}
+
+		if(rightMouseButton >= 0 && Input.GetMouseButtonDown(rightMouseButton)) {
 			rotating = true;
 		}
 
-		if(rightMouseUp) {
-			mousePosition = Vector3.zero;
-
+		if(rightMouseButton >= 0 && Input.GetMouseButtonUp(rightMouseButton)) {
 			rotating = false;
 		}
 
 		zoom -= Input.GetAxis(zoomAxis) * zoomSensitivity;
 		zoom = Mathf.Clamp(zoom, minimumZoom, maximumZoom);
+
+		if(allowReset && Input.GetKeyDown(resetKey)) {
+			resetPosition();
+			resetRotation();
+			resetZoom();
+		}
 
 		// These are calculated independent of other components.
 		updateRotation();
@@ -119,8 +178,24 @@ public class Viewer : MonoBehaviour {
 	}
 
 
+	private void resetPosition() {
+		strafe = startStrafe;
+		climb = startClimb;
+		advance = startAdvance;
+	}
+
+	private void resetRotation() {
+		pitch = startPitch;
+		tilt = startTilt;
+	}
+	
+	private void resetZoom() {
+		zoom = startZoom;
+	}
+
+
 	private void updatePosition() {
-		rig.transform.position = focus.transform.position;
+		rig.transform.position = focus.transform.position + new Vector3(strafe, climb, advance);
 	}
 	
 	private void updateRotation() {
