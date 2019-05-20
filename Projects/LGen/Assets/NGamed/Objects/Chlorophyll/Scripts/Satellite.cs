@@ -2,7 +2,8 @@
 using UnityEngine;
 
 public class Satellite : MonoBehaviour {
-	public MaterialReplacer target;
+	public Shader replacementShader;
+	public string replacementTag = "";
 
 	public string exportFileName = "";
 
@@ -30,9 +31,7 @@ public class Satellite : MonoBehaviour {
 
 
 	public void scan() {
-		target.replace();
-		satelliteCamera.Render();
-		target.restore();
+		satelliteCamera.RenderWithShader(replacementShader, replacementTag);
 
 		RenderTexture.active = satelliteCamera.targetTexture;
 		texture.ReadPixels(rectangle, 0, 0);

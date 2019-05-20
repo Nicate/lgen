@@ -21,7 +21,7 @@ ScriptedImporter:
     outputNames: baseColor,normal,metallic,height
     materialProperties:
       shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-      shaderKeywords: _MAINTEX _METALLICGLOSSMAP _NORMALMAP _PARALLAXMAP
+      shaderKeywords: _MAINTEX _METALLICGLOSSMAP _NORMALMAP _PARALLAXMAP _ROUGHNESSMAP
       lightmapFlags: 4
       texEnvs:
       - name: _BumpMap
