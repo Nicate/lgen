@@ -43,6 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dfc28e4ea93db14a9c044ac35806c63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  satellitePrefab: {fileID: 8706912566247819675, guid: 3db452405956a1b459528fda39fa7f5f,
+    type: 3}
   trunkPrefab: {fileID: -6707027389880616529, guid: c24611feec4f4a0418c2a2df2be11beb,
     type: 3}
   ringPrefab: {fileID: -1248902281501797873, guid: 1b5c3e91aaad5f34997a1018c1887597,

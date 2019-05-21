@@ -2,6 +2,10 @@
 using UnityEngine;
 
 public abstract class Plant : MonoBehaviour {
+	[Header("Plant")]
+	public Satellite satellitePrefab;
+
+
 	protected LSystem system;
 	
 	private Parent parent;
@@ -20,10 +24,23 @@ public abstract class Plant : MonoBehaviour {
 			this.depth = depth;
 		}
 	}
+	
+
+	private Satellite satellite;
+
+	private float responsiveness;
+	private float unresponsiveness;
+	private float emptiness;
 
 
 	protected virtual void Awake() {
 		parents = new Stack<Parent>();
+
+		satellite = Instantiate(satellitePrefab, transform);
+
+		responsiveness = 0.0f;
+		unresponsiveness = 0.0f;
+		emptiness = 1.0f;
 	}
 
 
@@ -87,4 +104,32 @@ public abstract class Plant : MonoBehaviour {
 
 
 	protected abstract void interpret(string variable);
+
+
+	public virtual void evaluate() {
+		satellite.scan();
+		satellite.evaluate();
+		
+		responsiveness = satellite.getResponsive();
+		unresponsiveness = satellite.getUnresponsive();
+		emptiness = satellite.getBackground();
+	}
+
+
+	public Satellite getSatellite() {
+		return satellite;
+	}
+
+	
+	public float getResponsiveness() {
+		return responsiveness;
+	}
+
+	public float getUnresponsiveness() {
+		return unresponsiveness;
+	}
+
+	public float getEmptiness() {
+		return emptiness;
+	}
 }

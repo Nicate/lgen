@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,6 +26,10 @@ public abstract class Plants : MonoBehaviour {
 		public string production;
 	}
 
+	[Header("Fitness")]
+	public bool debugSatellite = false;
+	public string debugExportDirectory = "";
+
 
 	protected List<Plant> plants;
 
@@ -34,6 +39,35 @@ public abstract class Plants : MonoBehaviour {
 	}
 	
 	protected virtual void Start() {
+		growPlants();
+	}
+	
+	protected virtual void Update() {
+		if(debugSystem) {
+			if(Input.GetKeyDown(KeyCode.Space)) {
+				foreach(Plant plant in plants) {
+					updatePlant(plant);
+				}
+			}
+		}
+
+		if(debugSatellite) {
+			if(Input.GetKeyDown(KeyCode.Z)) {
+				foreach(Plant plant in plants) {
+					Debug.LogFormat("Plant: {0}\nReponsiveness: {1}\nUnresponsiveness: {2}\nEmptiness: {3}", plant.name, plant.getResponsiveness(), plant.getUnresponsiveness(), plant.getEmptiness());
+				}
+			}
+
+			if(Input.GetKeyDown(KeyCode.X)) {
+				foreach(Plant plant in plants) {
+					plant.getSatellite().export(Path.Combine(debugExportDirectory, plant.name + ".png"));
+				}
+			}
+		}
+	}
+
+
+	private void growPlants() {
 		float startX = -0.5f * spacing * (width - 1);
 		float startY = 0.0f;
 		float startZ = -0.5f * spacing * (depth - 1);
@@ -55,17 +89,6 @@ public abstract class Plants : MonoBehaviour {
 			}
 		}
 	}
-	
-	protected virtual void Update() {
-		if(debugSystem) {
-			if(Input.GetKeyDown(KeyCode.Space)) {
-				foreach(Plant plant in plants) {
-					updatePlant(plant);
-				}
-			}
-		}
-	}
-
 
 	private Plant growPlant(Vector3 position, Quaternion rotation, Transform parent) {
 		Plant plant = createPlant(position, rotation, parent);
@@ -93,6 +116,8 @@ public abstract class Plants : MonoBehaviour {
 		}
 
 		plant.interpret(system);
+
+		plant.evaluate();
 	}
 
 
