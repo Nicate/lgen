@@ -1,9 +1,10 @@
 ﻿using System;
-using System.IO;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
-public abstract class Plants : MonoBehaviour {
+public abstract class Plants : MonoBehaviour, IEnumerable<Plant> {
 	[Header("Forest")]
 	public int width = 1;
 	public int depth = 1;
@@ -37,17 +38,17 @@ public abstract class Plants : MonoBehaviour {
 	protected virtual void Awake() {
 		plants = new List<Plant>(width * depth);
 	}
-	
+
 	protected virtual void Start() {
-		growPlants();
+		if(debugSystem) {
+			growPlants();
+		}
 	}
-	
+
 	protected virtual void Update() {
 		if(debugSystem) {
 			if(Input.GetKeyDown(KeyCode.Space)) {
-				foreach(Plant plant in plants) {
-					updatePlant(plant);
-				}
+				updatePlants();
 			}
 		}
 
@@ -67,7 +68,22 @@ public abstract class Plants : MonoBehaviour {
 	}
 
 
-	private void growPlants() {
+	public Plant[] getPlants() {
+		return plants.ToArray();
+	}
+
+	public IEnumerator<Plant> GetEnumerator() {
+		foreach(Plant plant in plants) {
+			yield return plant;
+		}
+	}
+
+	IEnumerator IEnumerable.GetEnumerator() {
+		return GetEnumerator();
+	}
+
+
+	public void growPlants() {
 		float startX = -0.5f * spacing * (width - 1);
 		float startY = 0.0f;
 		float startZ = -0.5f * spacing * (depth - 1);
@@ -96,6 +112,13 @@ public abstract class Plants : MonoBehaviour {
 		updatePlant(plant);
 
 		return plant;
+	}
+
+
+	public void updatePlants() {
+		foreach(Plant plant in plants) {
+			updatePlant(plant);
+		}
 	}
 	
 	private void updatePlant(Plant plant) {
