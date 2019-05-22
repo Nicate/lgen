@@ -109,10 +109,10 @@ public abstract class Plants : MonoBehaviour {
 			}
 		}
 
-		string sequence = system.generateSequence(generations);
+		system.generateSequence(generations);
 
 		if(debugSystem) {
-			Debug.Log(sequence);
+			Debug.Log(system);
 		}
 
 		plant.interpret(system);

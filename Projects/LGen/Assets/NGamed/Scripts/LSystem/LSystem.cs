@@ -147,4 +147,22 @@ public class LSystem : IEnumerable<string> {
 
 		return sequence;
 	}
+
+
+	public override string ToString() {
+		StringBuilder builder = new StringBuilder();
+
+		builder.AppendFormat("Sequence: {0}\n", sequence);
+		builder.AppendFormat("Variables: {0}\n", string.Join(", ", variables));
+		builder.Append("Productions:\n");
+
+		foreach(string variable in variables) {
+			builder.AppendFormat("  {0} -> {1}\n", variable, getProduction(variable));
+		}
+
+		// Remove the extraneous new-line character.
+		builder.Remove(builder.Length - 1, 1);
+
+		return builder.ToString();
+	}
 }
