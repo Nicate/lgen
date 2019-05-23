@@ -34,8 +34,6 @@ public abstract class Plant : MonoBehaviour {
 
 
 	protected virtual void Awake() {
-		system = new LSystem();
-
 		parents = new Stack<Parent>();
 
 		satellite = Instantiate(satellitePrefab, transform);
@@ -45,10 +43,6 @@ public abstract class Plant : MonoBehaviour {
 		emptiness = 1.0f;
 	}
 
-
-	public LSystem getSystem() {
-		return system;
-	}
 
 	public virtual void interpret(LSystem system) {
 		this.system = system;

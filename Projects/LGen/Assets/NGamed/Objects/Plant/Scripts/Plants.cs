@@ -68,6 +68,10 @@ public abstract class Plants : MonoBehaviour, IEnumerable<Plant> {
 	}
 
 
+	public int getNumberOfPlants() {
+		return plants.Count;
+	}
+
 	public Plant[] getPlants() {
 		return plants.ToArray();
 	}
@@ -80,6 +84,12 @@ public abstract class Plants : MonoBehaviour, IEnumerable<Plant> {
 
 	IEnumerator IEnumerable.GetEnumerator() {
 		return GetEnumerator();
+	}
+
+	public Plant this[int key] {
+		get {
+			return plants[key];
+		}
 	}
 
 
