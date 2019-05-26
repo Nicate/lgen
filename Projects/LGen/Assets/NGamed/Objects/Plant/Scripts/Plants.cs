@@ -11,7 +11,7 @@ public abstract class Plants : MonoBehaviour {
 	[Space]
 	public float spacing = 1.0f;
 
-	[Header("L-Systems")]
+	[Header("Systems")]
 	public int generations = 1;
 
 	[Header("Evolution")]
@@ -19,6 +19,12 @@ public abstract class Plants : MonoBehaviour {
 
 	[Header("Debugging")]
 	public bool debug = false;
+
+	[Space]
+	public KeyCode logKey = KeyCode.L;
+	public KeyCode exportKey = KeyCode.X;
+	public KeyCode updateKey = KeyCode.Space;
+	public KeyCode evolveKey = KeyCode.Return;
 
 	[Space]
 	public string exportDirectory = "";
@@ -37,16 +43,16 @@ public abstract class Plants : MonoBehaviour {
 
 	
 	private List<Plant> plants;
-	private List<LSystem> systems;
+	private List<PlantSystem> systems;
 
 	private int evolution;
 
 
 	protected virtual void Awake() {
 		plants = new List<Plant>(width * depth);
-		systems = new List<LSystem>(width * depth);
+		systems = new List<PlantSystem>(width * depth);
 
-		evolution = 0;
+		evolution = -1;
 	}
 
 	protected virtual void Start() {
@@ -56,23 +62,23 @@ public abstract class Plants : MonoBehaviour {
 
 	protected virtual void Update() {
 		if(debug) {
-			if(Input.GetKeyDown(KeyCode.P)) {
-				foreach(Plant plant in plants) {
-					Debug.Log(plant);
+			if(Input.GetKeyDown(logKey)) {
+				foreach(PlantSystem system in systems) {
+					Debug.Log(system);
 				}
 			}
 
-			if(Input.GetKeyDown(KeyCode.X)) {
+			if(Input.GetKeyDown(exportKey)) {
 				foreach(Plant plant in plants) {
 					plant.getSatellite().export(Path.Combine(exportDirectory, plant.name + ".png"));
 				}
 			}
 			
-			if(Input.GetKeyDown(KeyCode.Space)) {
+			if(Input.GetKeyDown(updateKey)) {
 				updatePlants();
 			}
 			
-			if(Input.GetKeyDown(KeyCode.Return)) {
+			if(Input.GetKeyDown(evolveKey)) {
 				evolvePlants();
 			}
 		}
@@ -80,6 +86,8 @@ public abstract class Plants : MonoBehaviour {
 
 
 	private void grow() {
+		evolution = 0;
+
 		float startX = -0.5f * spacing * (width - 1);
 		float startY = 0.0f;
 		float startZ = -0.5f * spacing * (depth - 1);
@@ -97,7 +105,7 @@ public abstract class Plants : MonoBehaviour {
 				plant.name += " (" + u + ", " + v + ")";
 				plants.Add(plant);
 
-				LSystem system = createSystem();
+				PlantSystem system = createSystem();
 				system.setName(system.getName() + " (" + u + ", " + v + ")");
 				systems.Add(system);
 
@@ -107,19 +115,19 @@ public abstract class Plants : MonoBehaviour {
 	}
 
 	protected abstract Plant createPlant(Vector3 position, Quaternion rotation, Transform parent);
-	protected abstract LSystem createSystem();
+	protected abstract PlantSystem createSystem();
 
 
 	public void updatePlants() {
 		for(int index = 0; index < plants.Count; index += 1) {
 			Plant plant = plants[index];
-			LSystem system = systems[index];
+			PlantSystem system = systems[index];
 
 			updatePlant(plant, system);
 		}
 	}
 	
-	private void updatePlant(Plant plant, LSystem system) {
+	private void updatePlant(Plant plant, PlantSystem system) {
 		if(overrideSystems) {
 			system = system.copy();
 
@@ -150,13 +158,13 @@ public abstract class Plants : MonoBehaviour {
 	public void evolvePlants() {
 		evolution += 1;
 
-		LSystem[] originalSystems = new LSystem[systems.Count];
+		PlantSystem[] originalSystems = new PlantSystem[systems.Count];
 
 		for(int index = 0; index < systems.Count; index += 1) {
 			originalSystems[index] = systems[index].copy();
 		}
 		
-		LSystem[] evolvedSystems = evolveSystems(originalSystems, plants.ToArray(), evolution);
+		PlantSystem[] evolvedSystems = evolveSystems(originalSystems, evolution);
 
 		systems.Clear();
 		systems.AddRange(evolvedSystems);
@@ -164,5 +172,5 @@ public abstract class Plants : MonoBehaviour {
 		updatePlants();
 	}
 
-	protected abstract LSystem[] evolveSystems(LSystem[] systems, Plant[] plants, int evolution);
+	protected abstract PlantSystem[] evolveSystems(PlantSystem[] systems, int evolution);
 }

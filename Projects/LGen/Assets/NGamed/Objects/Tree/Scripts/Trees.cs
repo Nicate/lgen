@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class Trees : Plants {
-	[Header("Tree")]
+	[Header("Trees")]
 	public TreePlant treePrefab;
 
 
@@ -13,8 +13,8 @@ public class Trees : Plants {
 		return plant;
 	}
 
-	protected override LSystem createSystem() {
-		LSystem system = new LSystem();
+	protected override PlantSystem createSystem() {
+		PlantSystem system = new PlantSystem();
 
 		system.setName("Tree");
 
@@ -35,7 +35,7 @@ public class Trees : Plants {
 	}
 
 
-	protected override LSystem[] evolveSystems(LSystem[] systems, Plant[] plants, int evolution) {
+	protected override PlantSystem[] evolveSystems(PlantSystem[] systems, int evolution) {
 		return systems;
 	}
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 public abstract class Plant : MonoBehaviour {
@@ -7,7 +6,7 @@ public abstract class Plant : MonoBehaviour {
 	public Satellite satellitePrefab;
 	
 
-	private LSystem system;
+	private PlantSystem system;
 	
 	private Parent parent;
 	private Stack<Parent> parents;
@@ -29,29 +28,15 @@ public abstract class Plant : MonoBehaviour {
 
 	private Satellite satellite;
 
-	private float responsiveness;
-	private float unresponsiveness;
-	private float emptiness;
-
 
 	protected virtual void Awake() {
-		system = new LSystem();
-
 		parents = new Stack<Parent>();
 
 		satellite = Instantiate(satellitePrefab, transform);
-
-		responsiveness = 0.0f;
-		unresponsiveness = 0.0f;
-		emptiness = 1.0f;
 	}
 
 
-	public LSystem getSystem() {
-		return system;
-	}
-
-	public virtual void interpret(LSystem system) {
+	public virtual void interpret(PlantSystem system) {
 		this.system = system;
 
 		reset();
@@ -117,40 +102,13 @@ public abstract class Plant : MonoBehaviour {
 		satellite.scan();
 		satellite.evaluate();
 		
-		responsiveness = satellite.getResponsive();
-		unresponsiveness = satellite.getUnresponsive();
-		emptiness = satellite.getBackground();
+		system.setResponsiveness(satellite.getResponsive());
+		system.setUnresponsiveness(satellite.getUnresponsive());
+		system.setEmptiness(satellite.getBackground());
 	}
 
 
 	public Satellite getSatellite() {
 		return satellite;
-	}
-
-	
-	public float getResponsiveness() {
-		return responsiveness;
-	}
-
-	public float getUnresponsiveness() {
-		return unresponsiveness;
-	}
-
-	public float getEmptiness() {
-		return emptiness;
-	}
-
-
-	public override string ToString() {
-		StringBuilder builder = new StringBuilder();
-		
-		builder.AppendFormat("Plant: {0}\n", name);
-		builder.AppendFormat("Reponsiveness: {0}\n", getResponsiveness());
-		builder.AppendFormat("Unresponsiveness: {0}\n", getUnresponsiveness());
-		builder.AppendFormat("Emptiness: {0}\n", getEmptiness());
-
-		builder.AppendFormat("\n{0}", system);
-
-		return builder.ToString();
 	}
 }

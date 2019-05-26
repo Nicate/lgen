@@ -20,8 +20,8 @@ public class RandomTrees : Trees {
 	}
 
 
-	protected override LSystem createSystem() {
-		LSystem system = base.createSystem();
+	protected override PlantSystem createSystem() {
+		PlantSystem system = base.createSystem();
 
 		string[] variables = system.getVariables();
 
@@ -77,5 +77,16 @@ public class RandomTrees : Trees {
 		}
 
 		return system;
+	}
+
+
+	protected override PlantSystem[] evolveSystems(PlantSystem[] systems, int evolution) {
+		PlantSystem[] evolvedSystems = base.evolveSystems(systems, evolution);
+
+		for(int index = 0; index < systems.Length; index += 1) {
+			evolvedSystems[index] = createSystem();
+		}
+
+		return evolvedSystems;
 	}
 }

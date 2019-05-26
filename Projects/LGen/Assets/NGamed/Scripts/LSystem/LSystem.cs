@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 
 public class LSystem : IEnumerable<string> {
-	private string name;
-
 	private List<string> variables;
 	private string axiom;
 	private Dictionary<string, string> productions;
@@ -14,42 +12,12 @@ public class LSystem : IEnumerable<string> {
 
 
 	public LSystem() {
-		name = "";
-
 		variables = new List<string>();
 		axiom = "";
 		productions = new Dictionary<string, string>();
 
 		sequence = "";
 		generation = -1;
-	}
-
-	public LSystem(LSystem system) : this() {
-		setName(system.getName());
-
-		foreach(string variable in system.getVariables()) {
-			addVariable(variable);
-		}
-
-		axiom = system.getAxiom();
-
-		foreach(string variable in variables) {
-			setProduction(variable, system.getProduction(variable));
-		}
-	}
-
-
-	public LSystem copy() {
-		return new LSystem(this);
-	}
-
-
-	public string getName() {
-		return name;
-	}
-
-	public void setName(string name) {
-		this.name = name;
 	}
 
 
@@ -161,22 +129,5 @@ public class LSystem : IEnumerable<string> {
 		generate(generations);
 
 		return sequence;
-	}
-
-
-	public override string ToString() {
-		StringBuilder builder = new StringBuilder();
-		
-		builder.AppendFormat("L-System: {0}\n", name);
-		builder.AppendFormat("Variables: {0}\n", string.Join(", ", variables));
-		builder.Append("Productions:\n");
-
-		foreach(string variable in variables) {
-			builder.AppendFormat("  {0} -> {1}\n", variable, getProduction(variable));
-		}
-
-		builder.AppendFormat("\nSequence: {0}", sequence);
-
-		return builder.ToString();
 	}
 }
