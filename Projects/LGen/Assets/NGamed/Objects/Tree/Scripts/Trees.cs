@@ -16,6 +16,8 @@ public class Trees : Plants {
 	protected override LSystem createSystem() {
 		LSystem system = new LSystem();
 
+		system.setName("Tree");
+
 		system.addVariable("T");
 		system.addVariable("R");
 		system.addVariable("K");
@@ -30,5 +32,10 @@ public class Trees : Plants {
 		system.setProduction("B", "BTB");
 
 		return system;
+	}
+
+
+	protected override LSystem[] evolveSystems(LSystem[] systems, Plant[] plants, int evolution) {
+		return systems;
 	}
 }

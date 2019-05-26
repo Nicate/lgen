@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public abstract class Plant : MonoBehaviour {
 	[Header("Plant")]
 	public Satellite satellitePrefab;
+	
 
-
-	protected LSystem system;
+	private LSystem system;
 	
 	private Parent parent;
 	private Stack<Parent> parents;
@@ -34,6 +35,8 @@ public abstract class Plant : MonoBehaviour {
 
 
 	protected virtual void Awake() {
+		system = new LSystem();
+
 		parents = new Stack<Parent>();
 
 		satellite = Instantiate(satellitePrefab, transform);
@@ -43,6 +46,10 @@ public abstract class Plant : MonoBehaviour {
 		emptiness = 1.0f;
 	}
 
+
+	public LSystem getSystem() {
+		return system;
+	}
 
 	public virtual void interpret(LSystem system) {
 		this.system = system;
@@ -131,5 +138,19 @@ public abstract class Plant : MonoBehaviour {
 
 	public float getEmptiness() {
 		return emptiness;
+	}
+
+
+	public override string ToString() {
+		StringBuilder builder = new StringBuilder();
+		
+		builder.AppendFormat("Plant: {0}\n", name);
+		builder.AppendFormat("Reponsiveness: {0}\n", getResponsiveness());
+		builder.AppendFormat("Unresponsiveness: {0}\n", getUnresponsiveness());
+		builder.AppendFormat("Emptiness: {0}\n", getEmptiness());
+
+		builder.AppendFormat("\n{0}", system);
+
+		return builder.ToString();
 	}
 }
