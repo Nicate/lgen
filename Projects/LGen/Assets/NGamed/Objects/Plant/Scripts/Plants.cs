@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
 public abstract class Plants : MonoBehaviour {
@@ -22,12 +21,8 @@ public abstract class Plants : MonoBehaviour {
 
 	[Space]
 	public KeyCode logKey = KeyCode.L;
-	public KeyCode exportKey = KeyCode.X;
 	public KeyCode updateKey = KeyCode.Space;
 	public KeyCode evolveKey = KeyCode.Return;
-
-	[Space]
-	public string exportDirectory = "";
 
 	[Space]
 	public bool overrideSystems = false;
@@ -67,12 +62,6 @@ public abstract class Plants : MonoBehaviour {
 					Debug.Log(system);
 				}
 			}
-
-			if(Input.GetKeyDown(exportKey)) {
-				foreach(Plant plant in plants) {
-					plant.getSatellite().export(Path.Combine(exportDirectory, plant.name + ".png"));
-				}
-			}
 			
 			if(Input.GetKeyDown(updateKey)) {
 				updatePlants();
@@ -85,15 +74,24 @@ public abstract class Plants : MonoBehaviour {
 	}
 
 
+	protected Plant[] getPlants() {
+		return plants.ToArray();
+	}
+	
+	protected PlantSystem[] getSystems() {
+		return systems.ToArray();
+	}
+
+
 	private void grow() {
 		evolution = 0;
 
-		float startX = -0.5f * spacing * (width - 1);
-		float startY = 0.0f;
-		float startZ = -0.5f * spacing * (depth - 1);
+		float startX = transform.position.x - 0.5f * spacing * (width - 1);
+		float startY = transform.position.y;
+		float startZ = transform.position.z - 0.5f * spacing * (depth - 1);
 		
-		for(int v = 0; v < width; v += 1) {
-			for(int u = 0; u < depth; u += 1) {
+		for(int v = 0; v < depth; v += 1) {
+			for(int u = 0; u < width; u += 1) {
 				float x = startX + u * spacing;
 				float y = startY;
 				float z = startZ + v * spacing;

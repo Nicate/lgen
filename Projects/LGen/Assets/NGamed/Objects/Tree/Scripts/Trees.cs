@@ -1,8 +1,28 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using UnityEngine;
 
 public class Trees : Plants {
 	[Header("Trees")]
 	public TreePlant treePrefab;
+
+	[Header("Debugging")]
+	public KeyCode exportKey = KeyCode.X;
+	public string exportDirectory = "";
+
+
+	protected override void Update() {
+		base.Update();
+
+		if(debug) {
+			if(Input.GetKeyDown(exportKey)) {
+				foreach(Plant plant in getPlants()) {
+					TreePlant tree = plant as TreePlant;
+
+					tree.getSatellite().export(Path.Combine(exportDirectory, tree.name + ".png"));
+				}
+			}
+		}
+	}
 
 
 	protected override Plant createPlant(Vector3 position, Quaternion rotation, Transform parent) {
@@ -14,9 +34,7 @@ public class Trees : Plants {
 	}
 
 	protected override PlantSystem createSystem() {
-		PlantSystem system = new PlantSystem();
-
-		system.setName("Tree");
+		TreeSystem system = new TreeSystem();
 
 		system.addVariable("T");
 		system.addVariable("R");
@@ -28,8 +46,9 @@ public class Trees : Plants {
 
 		system.setAxiom("T");
 
-		system.setProduction("T", "TR[KTL]BR[KTL]BR[KTL]B");
-		system.setProduction("B", "BTB");
+		// Start off with only identity production rules.
+
+		system.setName("Tree");
 
 		return system;
 	}

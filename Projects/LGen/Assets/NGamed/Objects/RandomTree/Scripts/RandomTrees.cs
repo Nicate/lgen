@@ -20,6 +20,14 @@ public class RandomTrees : Trees {
 	}
 
 
+	protected override Plant createPlant(Vector3 position, Quaternion rotation, Transform parent) {
+		Plant plant = base.createPlant(position, rotation, parent);
+
+		plant.name = "Random Tree";
+
+		return plant;
+	}
+
 	protected override PlantSystem createSystem() {
 		PlantSystem system = base.createSystem();
 
@@ -75,6 +83,8 @@ public class RandomTrees : Trees {
 
 			system.setProduction(inputVariable, builder.ToString());
 		}
+
+		system.setName("Random Tree");
 
 		return system;
 	}
