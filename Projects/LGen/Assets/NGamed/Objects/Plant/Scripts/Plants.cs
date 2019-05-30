@@ -36,6 +36,10 @@ public abstract class Plants : MonoBehaviour {
 		public string production;
 	}
 
+	[Space]
+	public bool perFrameEvolution = false;
+	public int perFrameEvolutions = 0;
+
 	
 	private List<Plant> plants;
 	private List<PlantSystem> systems;
@@ -70,6 +74,18 @@ public abstract class Plants : MonoBehaviour {
 			if(Input.GetKeyDown(evolveKey)) {
 				evolvePlants();
 			}
+		}
+	}
+
+	private void LateUpdate() {
+		if(debug && perFrameEvolution && evolution < evolutions + perFrameEvolutions) {
+			long startTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+
+			evolvePlants();
+
+			long endTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+
+			Debug.LogFormat("Evolution: {0} ({1}ms)", evolution, endTime - startTime);
 		}
 	}
 
