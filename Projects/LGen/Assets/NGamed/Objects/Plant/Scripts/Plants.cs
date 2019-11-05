@@ -116,11 +116,10 @@ public abstract class Plants : MonoBehaviour {
 				Quaternion rotation = Quaternion.identity;
 
 				Plant plant = createPlant(position, rotation, transform);
-				plant.name += " (" + u + ", " + v + ")";
+				plant.name = string.Format("{0} ({1}, {2})", plant.name, u, v);
 				plants.Add(plant);
 
 				PlantSystem system = createSystem();
-				system.setName(system.getName() + " (" + u + ", " + v + ")");
 				systems.Add(system);
 
 				updatePlant(plant, system);

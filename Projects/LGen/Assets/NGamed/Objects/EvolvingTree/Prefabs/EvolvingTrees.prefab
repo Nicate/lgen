@@ -55,8 +55,12 @@ MonoBehaviour:
   overrideSystems: 0
   overrideAxiom: 
   overrideProductions: []
+  perFrameEvolution: 0
+  perFrameEvolutions: 0
   treePrefab: {fileID: 5360938762424876827, guid: 032dcd349372f5d46b0c119e0e785fd4,
     type: 3}
   exportKey: 120
   exportDirectory: 
   length: 3
+  weightExponent: 2
+  mutationRate: 0.01

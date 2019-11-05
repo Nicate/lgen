@@ -85,7 +85,7 @@ GameObject:
   - component: {fileID: 6040796491856334825}
   - component: {fileID: 8706912566247819675}
   m_Layer: 0
-  m_Name: Satellite
+  m_Name: TreeSat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,5 +121,3 @@ MonoBehaviour:
   satelliteCamera: {fileID: 2684296997460315477}
   replacementShader: {fileID: 4800000, guid: 9d98694e67d4a39448cab5964fd259f2, type: 3}
   replacementTag: Responsive
-  debugSatellite: 0
-  debugExportFileName: 
